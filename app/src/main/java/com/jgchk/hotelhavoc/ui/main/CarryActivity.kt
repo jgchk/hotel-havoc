@@ -29,7 +29,6 @@ class CarryActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
 
         binding = DataBindingUtil.setContentView(this, R.layout.activity_carry)
-        binding.textView.typeface = Typeface.createFromAsset(assets, "fonts/Bullion.ttf")
 
         viewModel = ViewModelProviders.of(this).get(CarryViewModel::class.java)
         viewModel.itemName.observe(this, Observer {
