@@ -5,50 +5,53 @@
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@drawable/potentialback6"
+        android:background="@drawable/potentialback8"
         tools:context=".ui.main.StartActivity">
     <ImageView
             android:id="@+id/logo"
-            android:layout_width="match_parent"
-            android:layout_height="92dp"
-            android:layout_marginTop="193dp"
-            android:scaleX="1.5"
-            android:scaleY="1.75"
-            android:src="@drawable/hotelhavoclogo"
+            android:layout_width="241dp"
+            android:layout_height="90dp"
+            android:layout_marginTop="74dp"
+            android:scaleX="2.2"
+            android:scaleY="2.25"
+            android:src="@drawable/hhlogo2"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" android:layout_alignParentStart="true"
-            android:layout_marginStart="0dp" android:layout_alignParentTop="true"/>
+            android:layout_marginStart="16dp" android:layout_alignParentTop="true"/>
 
-    <pl.droidsonroids.gif.GifImageView
-            android:layout_width="200dp"
-            android:layout_height="197dp"
-            android:src="@drawable/fire2"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentBottom="true"
-            android:layout_alignParentEnd="true"
-            android:scaleX="2.0"
-            android:layout_below="@+id/logo" android:layout_marginTop="85dp" android:layout_marginStart="95dp"
-            android:layout_marginEnd="89dp" android:layout_marginBottom="0dp" android:paddingBottom="250dp"/>
+    <!--<pl.droidsonroids.gif.GifImageView-->
+            <!--android:layout_width="161dp"-->
+            <!--android:layout_height="131dp"-->
+            <!--android:src="@drawable/fire2"-->
+            <!--android:layout_alignParentStart="true"-->
+            <!--android:layout_alignParentBottom="true"-->
+            <!--android:layout_alignParentEnd="true"-->
+            <!--android:scaleX="2.0"-->
+            <!--android:layout_below="@+id/logo" android:layout_marginTop="-81dp" android:layout_marginStart="0dp"-->
+            <!--android:layout_marginEnd="223dp" android:layout_marginBottom="386dp" android:paddingBottom="250dp"/>-->
     <Button
             android:text="Start Game"
             android:layout_width="190dp"
-            android:layout_height="wrap_content" android:layout_centerHorizontal="true"
+            android:layout_height="wrap_content"
             android:background="@drawable/rounded_button"
             android:textColor="#ffffff"
             android:fontFamily="sans-serif-condensed"
             android:textSize="18dp"
             android:textStyle="bold"
-            android:layout_alignBottom="@+id/logo" android:id="@+id/button" android:layout_marginBottom="-7dp"/>
+            android:id="@+id/button" android:layout_alignParentStart="true" android:layout_marginStart="17dp"
+            android:layout_alignParentTop="true" android:layout_marginTop="186dp"/>
     <Button
             android:text="Add Menu Items"
             android:layout_width="187dp"
-            android:layout_height="wrap_content" android:layout_centerHorizontal="true"
+            android:layout_height="wrap_content"
             android:background="@drawable/rounded_button"
             android:textColor="#ffffff"
             android:fontFamily="sans-serif-condensed"
             android:textSize="18dp"
             android:textStyle="bold"
-            android:layout_alignBottom="@+id/logo" android:id="@+id/button2" android:layout_marginBottom="-76dp"/>
+            android:id="@+id/button2" android:layout_alignEnd="@+id/button"
+            android:layout_marginEnd="2dp"
+            android:layout_marginTop="276dp" android:layout_alignParentTop="true"/>
 
 
 </RelativeLayout>
