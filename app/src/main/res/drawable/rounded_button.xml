@@ -10,7 +10,7 @@
                     android:topRightRadius="20dp"
                     android:radius="10dp" />
             <solid
-                    android:color="#FE7219"     />
+                    android:color="#000000"     />
 
         </shape>
     </item>
