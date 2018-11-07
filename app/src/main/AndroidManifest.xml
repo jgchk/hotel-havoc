@@ -1,38 +1,44 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-          package="com.jgchk.hotelhavoc">
+    xmlns:tools="http://schemas.android.com/tools"
+    package="com.jgchk.hotelhavoc">
 
-    <uses-permission android:name="android.permission.NFC"/>
+    <!--Permissions-->
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
-    <uses-feature
-            android:name="android.hardware.nfc"
-            android:required="true"/>
-
+    <!--Application-->
+    <uses-permission android:name="android.permission.NFC" />
     <application
-            android:allowBackup="true"
-            android:icon="@mipmap/ic_launcher"
-            android:label="@string/app_name"
-            android:roundIcon="@mipmap/ic_launcher_round"
-            android:supportsRtl="true"
-            android:theme="@style/AppTheme">
+        android:name=".AndroidApplication"
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme"
+        tools:ignore="AllowBackup,GoogleAppIndexingWarning">
+
         <meta-data
-                android:name="preloaded_fonts"
-                android:resource="@array/preloaded_fonts"/>
+            android:name="com.google.android.gms.games.APP_ID"
+            android:value="@string/app_id" />
+        <meta-data
+            android:name="com.google.android.gms.version"
+            android:value="@integer/google_play_services_version" />
 
-        <activity android:name=".ui.main.StartActivity">
+        <!--Activities-->
+        <activity
+            android:name="com.jgchk.hotelhavoc.core.navigation.RouteActivity"
+            android:noHistory="true"
+            android:theme="@style/AppTheme">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
-
-                <category android:name="android.intent.category.LAUNCHER"/>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ui.main.CarryActivity">
-            <!--<intent-filter>-->
-            <!--<action android:name="android.intent.action.MAIN"/>-->
 
-            <!--<category android:name="android.intent.category.LAUNCHER"/>-->
-            <!--</intent-filter>-->
-        </activity>
+        <activity android:name=".features.game.GameActivity" />
+
+        <activity android:name="com.jgchk.hotelhavoc.features.menu.MenuActivity" />
 
     </application>
 

@@ -1,68 +1,126 @@
 apply plugin: 'com.android.application'
-
 apply plugin: 'kotlin-android'
-
+apply plugin: 'kotlin-kapt'
 apply plugin: 'kotlin-android-extensions'
 
 android {
-    compileSdkVersion 28
+    def config = rootProject.extensions.getByName("ext")
 
-    dataBinding {
-        enabled = true
-    }
+    compileSdkVersion config["compile_sdk"]
+    buildToolsVersion '28.0.3'
 
     defaultConfig {
-        applicationId "com.jgchk.hotelhavoc"
-        minSdkVersion 21
-        targetSdkVersion 28
-        versionCode 1
-        versionName "1.0"
-        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        applicationId config["application_id"]
+        minSdkVersion config["min_sdk"]
+        targetSdkVersion config["target_sdk"]
+        versionCode config["version_code"]
+        versionName config["version_name"]
+        testInstrumentationRunner config["test_runner"]
     }
+
+    packagingOptions {
+        exclude 'LICENSE.txt'
+        exclude 'META-INF/DEPENDENCIES'
+        exclude 'META-INF/ASL2.0'
+        exclude 'META-INF/NOTICE'
+        exclude 'META-INF/LICENSE'
+    }
+
+    lintOptions {
+        quiet true
+        abortOnError false
+        ignoreWarnings true
+        disable 'InvalidPackage'            //Some libraries have issues with this.
+        disable 'OldTargetApi'
+        //Lint gives this warning but SDK 20 would be Android L Beta.
+        disable 'IconDensities'             //For testing purpose. This is safe to remove.
+        disable 'IconMissingDensityFolder'  //For testing purpose. This is safe to remove.
+    }
+
+    signingConfigs {
+        debug {
+            storeFile file('../buildsystem/debug.keystore')
+            storePassword 'android'
+            keyAlias 'androiddebugkey'
+            keyPassword 'android'
+        }
+    }
+
     buildTypes {
+        debug {
+            minifyEnabled false
+            signingConfig signingConfigs.debug
+        }
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+
+    sourceSets {
+        main.java.srcDirs += 'src/main/kotlin'
+        main.java.srcDirs += [file("$buildDir/generated/source/kapt/main")]
+        test.java.srcDirs += 'src/test/kotlin'
+        androidTest.java.srcDirs += 'src/androidTest/kotlin'
+    }
 }
 
 dependencies {
-    implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
-    implementation "org.jetbrains.kotlin:kotlin-reflect:$kotlin_version"
-    implementation "com.android.support:appcompat-v7:$android_support_version"
-    implementation 'com.android.support:appcompat-v7:28.0.0'
-    implementation 'android.arch.lifecycle:extensions:1.1.1'
-    testImplementation 'junit:junit:4.12'
-    androidTestImplementation 'com.android.support.test:runner:1.0.2'
-    androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
+    def applicationDependencies = rootProject.ext.mainApplication
+    def unitTestDependencies = rootProject.ext.unitTesting
+    def acceptanceTestDependencies = rootProject.ext.acceptanceTesting
+    def developmentDependencies = rootProject.ext.development
 
-    // Support Design
-    implementation "com.android.support:design:$android_support_version"
+    //Compile time dependencies
+    kapt applicationDependencies.archComponentsCompiler
+    kapt applicationDependencies.daggerCompiler
+    compileOnly applicationDependencies.javaxAnnotation
+    compileOnly applicationDependencies.javaxInject
 
-    // RecyclerView
-    implementation "com.android.support:recyclerview-v7:$android_support_version"
+    //Application dependencies
+    implementation applicationDependencies.kotlin
+    implementation applicationDependencies.kotlinCoroutines
+    implementation applicationDependencies.kotlinCoroutinesAndroid
+    implementation applicationDependencies.kotlinReflect
+    implementation applicationDependencies.appCompat
+    implementation applicationDependencies.constraintLayout
+    implementation applicationDependencies.archComponents
+    implementation applicationDependencies.cardView
+    implementation applicationDependencies.recyclerView
+    implementation applicationDependencies.design
+    implementation applicationDependencies.androidAnnotations
+    implementation applicationDependencies.glide
+    implementation applicationDependencies.dagger
+    implementation applicationDependencies.retrofit
+    implementation applicationDependencies.okhttpLoggingInterceptor
+    implementation applicationDependencies.googlePlayGames
+    implementation applicationDependencies.googlePlayAuth
+    implementation applicationDependencies.gifDrawable
+    implementation applicationDependencies.scrollingImageView
 
-    // Constraint Layout
-    implementation "com.android.support.constraint:constraint-layout:1.1.3"
+    //Unit/Integration tests dependencies
+    testImplementation unitTestDependencies.kotlin
+    testImplementation unitTestDependencies.kotlinTest
+    testImplementation unitTestDependencies.robolectric
+    testImplementation unitTestDependencies.junit
+    testImplementation unitTestDependencies.mockito
+    testImplementation unitTestDependencies.kluent
 
-    // LiveData & ViewModel
-    implementation "android.arch.lifecycle:extensions:$lifecycle_version"
+    //Acceptance tests dependencies
+    androidTestImplementation acceptanceTestDependencies.testRunner
+    androidTestImplementation acceptanceTestDependencies.testRules
+    androidTestImplementation acceptanceTestDependencies.espressoCore
+    androidTestImplementation acceptanceTestDependencies.espressoIntents
+    androidTestImplementation acceptanceTestDependencies.androidAnnotations
 
-    // Dagger 2
-    implementation "com.google.dagger:dagger:$dagger2_version"
-    kapt "com.google.dagger:dagger-compiler:$dagger2_version"
-    compileOnly "org.glassfish:javax.annotation:3.1.1"
+    //Development dependencies
+    debugImplementation developmentDependencies.leakCanary
+    releaseImplementation developmentDependencies.leakCanaryNoop
+    testImplementation developmentDependencies.leakCanaryNoop
+}
 
-    // RxJava
-    implementation "io.reactivex.rxjava2:rxjava:2.2.0"
-    implementation "io.reactivex.rxjava2:rxandroid:2.1.0"
-
-    //Gif Support
-    implementation 'pl.droidsonroids.gif:android-gif-drawable:1.2.5'
-
-    //Scroll Banner
-    implementation 'com.github.Q42:AndroidScrollingImageView:1.3.3'
-
+kotlin {
+    experimental {
+        coroutines "enable"
+    }
 }
